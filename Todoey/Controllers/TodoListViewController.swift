@@ -121,7 +121,7 @@ class TodoListViewController: UITableViewController {
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, additionalPredicate])
         } else {
             request.predicate = categoryPredicate
-        }     
+        }
         
 //        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [categoryPredicate, predicate])
 //
@@ -132,10 +132,7 @@ class TodoListViewController: UITableViewController {
         } catch {
             print("Error fetching data from context \(error)")
         }
-
     }
-    
-    
 }
 
 //MARK: - Search bar methods
@@ -157,7 +154,7 @@ class TodoListViewController: UITableViewController {
 //            print("Error fetching data from context \(error)")
 //        }
         
-        //tableView.reloadData()
+//tableView.reloadData()
         
     }
     
