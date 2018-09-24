@@ -19,6 +19,8 @@ class TodoListViewController: UITableViewController {
         
         print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
+        //let request : NSFetchRequest<Item> = Item.fetchRequest()
+        
         loadItems()
         
     }
@@ -47,7 +49,10 @@ class TodoListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print(itemArray[indexPath.row])
         
-      itemArray[indexPath.row].done = !itemArray[indexPath.row].done
+//        context.delete(itemArray[indexPath.row])
+//        itemArray.remove(at: indexPath.row)
+        
+        itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         saveItems()
         
@@ -102,9 +107,10 @@ class TodoListViewController: UITableViewController {
     
     }
     
-    func loadItems() {
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
         
-        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        //let request : NSFetchRequest<Item> = Item.fetchRequest()
+        
         do {
         itemArray = try context.fetch(request)
         } catch {
@@ -115,4 +121,36 @@ class TodoListViewController: UITableViewController {
     
     
 }
+
+//MARK: - Search bar methods
+
+   extension TodoListViewController: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        loadItems(with: request)
+        
+        
+//        do {
+//            itemArray = try context.fetch(request)
+//        } catch {
+//            print("Error fetching data from context \(error)")
+//        }
+        
+        //tableView.reloadData()
+        
+    }
+    
+}
+
+
+
+
+
+
+
 
